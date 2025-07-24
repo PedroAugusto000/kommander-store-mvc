@@ -35,6 +35,8 @@ public class Produto {
 	@Column(name = "ativo", nullable = false)
 	private Boolean ativo;
 
+	public Produto() {}
+	
 	public Produto(UUID id, String nome, String descricao, BigDecimal preco, Integer quantidadeEstoque,
 			LocalDateTime dataCriacao, Boolean ativo) {
 		this.id = id;
