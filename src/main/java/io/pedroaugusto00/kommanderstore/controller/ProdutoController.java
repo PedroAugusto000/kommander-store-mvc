@@ -1,9 +1,12 @@
 package io.pedroaugusto00.kommanderstore.controller;
 
+import java.util.UUID;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,11 +25,15 @@ public class ProdutoController {
 		this.produtoService = produtoService;
 	}
 	
-	
 	@PostMapping
 	public ResponseEntity<ProdutoDTO> criarProduto(@RequestBody ProdutoDTO dto) {
 		ProdutoDTO salvo = produtoService.salvar(dto);
 		return new ResponseEntity<>(salvo, HttpStatus.CREATED);
+	}
+	
+	@GetMapping("{id}")
+	public ResponseEntity<ProdutoDTO> consultarPorId(@PathVariable UUID id) {
+		return ResponseEntity.ok(produtoService.consultar(id));
 	}
 	
 }
