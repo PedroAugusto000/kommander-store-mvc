@@ -23,14 +23,13 @@ public class ProdutoService {
 
 	public ProdutoDTO salvar(ProdutoDTO dto) {
 		Produto produto = ProdutoMapper.toEntity(dto);
-		Produto salvo = produtoRepository.save(produto);
 		produto.setDataCriacao(LocalDateTime.now());
+		Produto salvo = produtoRepository.save(produto);
 		return ProdutoMapper.toDTO(salvo);
 	}
 	
 	public ProdutoDTO consultar(UUID id) {
-	    Produto produto = produtoRepository.findById(id)
-	        .orElseThrow(() -> new EntityNotFoundException("Produto não encontrado!"));
+	    Produto produto = produtoRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Produto não encontrado!"));
 
 	    return ProdutoMapper.toDTO(produto);
 	}
