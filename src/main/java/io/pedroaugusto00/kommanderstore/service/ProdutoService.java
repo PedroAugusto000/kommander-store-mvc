@@ -34,5 +34,19 @@ public class ProdutoService {
 
 	    return ProdutoMapper.toDTO(produto);
 	}
+	
+	public ProdutoDTO atualizar(UUID id, ProdutoDTO dto) {
+		Produto produtoExiste = produtoRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Produto não encontrado!"));
+		
+		produtoExiste.setNome(dto.getNome());
+		produtoExiste.setDescricao(dto.getDescricao());
+		produtoExiste.setPreco(dto.getPreco());
+		produtoExiste.setQuantidadeEstoque(dto.getQuantidadeEstoque());
+		produtoExiste.setDataCriacao(dto.getDataCriacao());
+		produtoExiste.setAtivo(dto.getAtivo());
+		
+		Produto atualizado = produtoRepository.save(produtoExiste);
+		return ProdutoMapper.toDTO(atualizado);
+	}
 
 }
