@@ -2,6 +2,8 @@ package io.pedroaugusto00.kommanderstore.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,6 +14,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
+@EnableMethodSecurity
 public class SecurityConfig {
 
 	@Bean
@@ -20,7 +23,7 @@ public class SecurityConfig {
         http
         .csrf(csrf -> csrf.disable()) 
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/auth/**", "/public/**").permitAll() 
+            .requestMatchers(HttpMethod.GET, "/produtos/**").permitAll()
             .anyRequest().authenticated() 
         )
         .httpBasic();
@@ -31,11 +34,21 @@ public class SecurityConfig {
 	public UserDetailsService userDetailsService() {
 	    UserDetails user = User
 	        .withUsername("admin")
-	        .password("admin123")
-	        .roles("ADMIN")
+	        .password("admin")
+	        .roles("GERENTE")
 	        .build();
-
-	    return new InMemoryUserDetailsManager(user);
+	    
+	    UserDetails user2 = User.withUsername("Pedro")
+	    		.password("123")
+	    		.roles("GERENTE")
+	    		.build();
+	    
+	    UserDetails user3 = User.withUsername("Joao")
+	    		.password("123")
+	    		.roles("OPERADOR")
+	    		.build();
+	    
+	    return new InMemoryUserDetailsManager(user, user2, user3);
 	}
 	
 	@Bean

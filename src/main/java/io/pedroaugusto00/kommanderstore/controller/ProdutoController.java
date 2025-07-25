@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,23 +29,27 @@ public class ProdutoController {
 	}
 	
 	@PostMapping
+	@PreAuthorize("hasAnyRole('GERENTE', 'OPERADOR')")
 	public ResponseEntity<ProdutoDTO> criarProduto(@RequestBody ProdutoDTO dto) {
 		ProdutoDTO salvo = produtoService.salvar(dto);
 		return new ResponseEntity<>(salvo, HttpStatus.CREATED);
 	}
 	
 	@GetMapping("{id}")
+	@PreAuthorize("permitAll()")
 	public ResponseEntity<ProdutoDTO> consultarPorId(@PathVariable UUID id) {
 		return ResponseEntity.ok(produtoService.consultar(id));
 	}
 	
 	@PutMapping("{id}")
+	@PreAuthorize("hasAnyRole('GERENTE', 'OPERADOR')")
 	public ResponseEntity<ProdutoDTO> atualizarPorId(@PathVariable UUID id, @RequestBody ProdutoDTO dto){
 		ProdutoDTO atualizado = produtoService.atualizar(id, dto);
 		return ResponseEntity.ok(atualizado);
 	}
 	
 	@DeleteMapping("{id}")
+	@PreAuthorize("hasRole('GERENTE')")
 	public ResponseEntity<Void> deletarPorId(@PathVariable UUID id) {
 		produtoService.deletar(id);
 		return ResponseEntity.noContent().build();
