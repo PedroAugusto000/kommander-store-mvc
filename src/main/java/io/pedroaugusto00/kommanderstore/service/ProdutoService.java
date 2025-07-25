@@ -48,5 +48,9 @@ public class ProdutoService {
 		Produto atualizado = produtoRepository.save(produtoExiste);
 		return ProdutoMapper.toDTO(atualizado);
 	}
-
+	
+	public void deletar(UUID id) {
+		Produto produto = produtoRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Produto não encontrado!"));
+		produtoRepository.deleteById(id);
+	}
 }

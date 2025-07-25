@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,5 +42,11 @@ public class ProdutoController {
 	public ResponseEntity<ProdutoDTO> atualizarPorId(@PathVariable UUID id, @RequestBody ProdutoDTO dto){
 		ProdutoDTO atualizado = produtoService.atualizar(id, dto);
 		return ResponseEntity.ok(atualizado);
+	}
+	
+	@DeleteMapping("{id}")
+	public ResponseEntity<Void> deletarPorId(@PathVariable UUID id) {
+		produtoService.deletar(id);
+		return ResponseEntity.noContent().build();
 	}
 }
