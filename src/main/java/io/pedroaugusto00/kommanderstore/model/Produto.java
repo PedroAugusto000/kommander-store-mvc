@@ -8,13 +8,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.PrePersist;
 
 @Entity
 public class Produto {
 
 	@Id
-	@Column(name = "id", columnDefinition = "uuid")
+	@Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.UUID)
 	private UUID id;
 	
 	@Column(name = "nome", nullable = false, length = 150)
@@ -34,13 +34,6 @@ public class Produto {
 	
 	@Column(name = "ativo", nullable = false)
 	private Boolean ativo;
-
-	@PrePersist
-	public void gerarId() {
-	    if (id == null) {
-	        id = UUID.randomUUID();
-	    }
-	}
 	
 	public Produto() {}
 	
