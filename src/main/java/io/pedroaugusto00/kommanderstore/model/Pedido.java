@@ -52,6 +52,8 @@ public class Pedido {
     @JoinColumn(name = "funcionario_responsavel_id", nullable = false)
     private Funcionario funcionarioResponsavel;
 
+	public Pedido() {}
+	
 	public Pedido(UUID id, Status status, LocalDateTime dataPedido, LocalDate dataEntregaPrevista,
 			LocalDateTime dataEntrega, BigDecimal precoTotal, Cliente cliente, Funcionario funcionarioResponsavel) {
 		this.id = id;
@@ -63,8 +65,6 @@ public class Pedido {
 		this.cliente = cliente;
 		this.funcionarioResponsavel = funcionarioResponsavel;
 	}
-	
-	public Pedido() {}
 
 	public UUID getId() {
 		return id;
