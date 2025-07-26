@@ -6,56 +6,53 @@ import java.util.UUID;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import io.pedroaugusto00.kommanderstore.model.enums.Role;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-public class Funcionario {
+public class Cliente {
 
 	@Id
-	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private UUID id;
 	
-	@Column(name = "nome", length = 150, nullable = false)
+	@Column(length = 150, nullable = false)
 	private String nome;
 	
-	@Column(name = "email", length = 150, nullable = false, unique = true)
+	@Column(length = 150, nullable = false)
 	private String email;
 	
-	@Column(name = "senha", length = 100, nullable = false)
+	@Column(length = 100, nullable = false)
 	private String senha;
 	
-	@Column(name = "data_criacao", nullable = true)
+	@Column(length = 255, nullable = false)
+	private String endereco;
+	
+	@Column(length = 20, nullable = false)
+	private String telefone;
+	
 	@CreatedDate
+	@Column(name = "data_criacao")
 	private LocalDateTime dataCriacao;
 	
-	@Column(name = "ativo", nullable = false)
+	@Column(nullable = false)
 	private Boolean ativo;
 	
-	@Enumerated(EnumType.STRING)
-	@Column(name = "role", nullable = false)
-	private Role role;
-
-	public Funcionario() {}
-	
-	public Funcionario(UUID id, String nome, String email, String senha, LocalDateTime dataCriacao, Boolean ativo,
-			Role role) {
+	public Cliente(UUID id, String nome, String email, String senha, String endereco, String telefone,
+			LocalDateTime dataCriacao, Boolean ativo) {
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
 		this.senha = senha;
+		this.endereco = endereco;
+		this.telefone = telefone;
 		this.dataCriacao = dataCriacao;
 		this.ativo = ativo;
-		this.role = role;
 	}
 
 	public UUID getId() {
@@ -90,6 +87,22 @@ public class Funcionario {
 		this.senha = senha;
 	}
 
+	public String getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(String endereco) {
+		this.endereco = endereco;
+	}
+
+	public String getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+
 	public LocalDateTime getDataCriacao() {
 		return dataCriacao;
 	}
@@ -105,13 +118,4 @@ public class Funcionario {
 	public void setAtivo(Boolean ativo) {
 		this.ativo = ativo;
 	}
-
-	public Role getRole() {
-		return role;
-	}
-
-	public void setRole(Role role) {
-		this.role = role;
-	}
-	
 }

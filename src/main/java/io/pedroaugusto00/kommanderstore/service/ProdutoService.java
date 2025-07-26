@@ -23,7 +23,6 @@ public class ProdutoService {
 
 	public ProdutoDTO salvar(ProdutoDTO dto) {
 		Produto produto = ProdutoMapper.toEntity(dto);
-		produto.setDataCriacao(LocalDateTime.now());
 		Produto salvo = produtoRepository.save(produto);
 		return ProdutoMapper.toDTO(salvo);
 	}

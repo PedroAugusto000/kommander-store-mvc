@@ -22,7 +22,6 @@ public class FuncionarioService {
 	
 	public FuncionarioDTO criar(FuncionarioDTO dto) {
 		Funcionario funcionario = FuncionarioMapper.toEntity(dto);
-		funcionario.setDataCriacao(LocalDateTime.now());
 		Funcionario salvo = funcionarioRepository.save(funcionario);
 		return FuncionarioMapper.toDTO(salvo);
 	}
