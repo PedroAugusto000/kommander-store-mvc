@@ -4,10 +4,12 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import io.github.pedroaugusto00.kommanderstore_mvc.pedido.model.enums.Status;
+
 public class PedidoDTO {
 
 	private UUID id;
-	private String status;
+	private Status status;
 	private LocalDateTime dataPedido;
 	private LocalDateTime dataEntregaPrevista;
 	private LocalDateTime dataEntrega;
@@ -22,11 +24,11 @@ public class PedidoDTO {
 		this.id = id;
 	}
 
-	public String getStatus() {
+	public Status getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(Status status) {
 		this.status = status;
 	}
 

@@ -13,6 +13,7 @@ public class ClienteDTO {
 	private String telefone;
 	private LocalDateTime dataCriacao;
 	private Boolean ativo;
+	
 	public UUID getId() {
 		return id;
 	}

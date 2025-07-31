@@ -11,13 +11,17 @@ import io.github.pedroaugusto00.kommanderstore_mvc.produto.model.enums.Categoria
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 public class Produto {
 
+	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private UUID id;
 	@Column(length = 150)
@@ -26,6 +30,7 @@ public class Produto {
 	private String descricao;
 	@Column(precision = 18, scale = 2)
 	private BigDecimal preco;
+	@Enumerated(EnumType.STRING)
 	private Categoria categoria;
 	@Column(name = "quantidade_estoque")
 	private Integer quantidadeEstoque;

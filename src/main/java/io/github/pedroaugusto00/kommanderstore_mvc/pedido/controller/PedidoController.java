@@ -1,5 +1,6 @@
 package io.github.pedroaugusto00.kommanderstore_mvc.pedido.controller;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
@@ -37,5 +38,10 @@ public class PedidoController {
 	public ResponseEntity<Void> deletarPorId(@PathVariable UUID id) {
 		pedidoService.deletarPorId(id);
 		return ResponseEntity.noContent().build();
+	}
+	
+	@GetMapping("/cliente/{clienteId}")
+	public ResponseEntity<List<PedidoDTO>> listarPedidosPorCliente(@PathVariable UUID clienteId) {
+	    return ResponseEntity.ok(pedidoService.consultarPedidosCliente(clienteId));
 	}
 }

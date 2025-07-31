@@ -1,6 +1,8 @@
 package io.github.pedroaugusto00.kommanderstore_mvc.produto.service;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -36,9 +38,7 @@ public class ProdutoService {
 		
 		produtoExiste.setAtivo(dto.getAtivo());
 		produtoExiste.setCategoria(dto.getCategoria());
-		produtoExiste.setDataCriacao(dto.getDataCriacao());
 		produtoExiste.setDescricao(dto.getDescricao());
-		produtoExiste.setId(dto.getId());
 		produtoExiste.setNome(dto.getNome());
 		produtoExiste.setPreco(dto.getPreco());
 		produtoExiste.setQuantidadeEstoque(dto.getQuantidadeEstoque());
@@ -50,5 +50,10 @@ public class ProdutoService {
 	public void deletarPorId(UUID id) {
 		produtoRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Produto não encontrado!"));
 		produtoRepository.deleteById(id);
+	}
+	
+	public List<ProdutoDTO> consultarTodosAtivos() {
+		List<Produto> produtosExistem = produtoRepository.findAllByAtivoTrue();
+		return produtosExistem.stream().map(ProdutoMapper::toDTO).collect(Collectors.toList());
 	}
 }

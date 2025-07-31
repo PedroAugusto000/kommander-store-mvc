@@ -1,6 +1,8 @@
 package io.github.pedroaugusto00.kommanderstore_mvc.pedido.service;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -59,5 +61,10 @@ public class PedidoService {
 	public void deletarPorId(UUID id) {
 		pedidoRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Pedido não encontrado!"));
 		pedidoRepository.deleteById(id);
+	}
+	
+	public List<PedidoDTO> consultarPedidosCliente(UUID clienteId) {
+		List<Pedido> consulta = pedidoRepository.findByClienteId(clienteId);
+		return consulta.stream().map(PedidoMapper::toDTO).collect(Collectors.toList());
 	}
 }

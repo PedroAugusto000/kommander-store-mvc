@@ -34,9 +34,7 @@ public class ClienteService {
 		Cliente funcionarioExiste = clienteRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Funcionário não encontrado!"));
 		
 		funcionarioExiste.setAtivo(dto.getAtivo());
-		funcionarioExiste.setDataCriacao(dto.getDataCriacao());
 		funcionarioExiste.setEmail(dto.getEmail());
-		funcionarioExiste.setId(dto.getId());
 		funcionarioExiste.setNome(dto.getNome());
 		funcionarioExiste.setSenha(dto.getSenha());
 		

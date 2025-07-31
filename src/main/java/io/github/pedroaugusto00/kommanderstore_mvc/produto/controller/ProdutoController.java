@@ -1,5 +1,6 @@
 package io.github.pedroaugusto00.kommanderstore_mvc.produto.controller;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
@@ -36,7 +37,7 @@ public class ProdutoController {
 	}
 	
 	@PutMapping("{id}")
-	public ResponseEntity<ProdutoDTO> consultarPorId(@RequestBody ProdutoDTO dto, @PathVariable UUID id) {
+	public ResponseEntity<ProdutoDTO> atualizarPorId(@RequestBody ProdutoDTO dto, @PathVariable UUID id) {
 		return ResponseEntity.ok(produtoService.atualizarPorId(dto, id));
 	}
 	
@@ -45,4 +46,10 @@ public class ProdutoController {
 		produtoService.deletarPorId(id);
 		return ResponseEntity.noContent().build();
 	}
+	
+	@GetMapping("/ativos")
+	public ResponseEntity<List<ProdutoDTO>> listarTodosAtivo() {
+		return ResponseEntity.ok(produtoService.consultarTodosAtivos());
+	}
+	
 }

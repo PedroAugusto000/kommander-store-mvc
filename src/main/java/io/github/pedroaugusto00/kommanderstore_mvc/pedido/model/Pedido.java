@@ -7,9 +7,12 @@ import java.util.UUID;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import io.github.pedroaugusto00.kommanderstore_mvc.cliente.model.Cliente;
+import io.github.pedroaugusto00.kommanderstore_mvc.pedido.model.enums.Status;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -25,7 +28,8 @@ public class Pedido {
 	private UUID id;
 
 	@Column(length = 50)
-	private String status;
+	@Enumerated(EnumType.STRING)
+	private Status status;
 
 	@Column(name = "data_pedido")
 	private LocalDateTime dataPedido;
@@ -45,7 +49,7 @@ public class Pedido {
 
 	public Pedido() {}
 
-	public Pedido(UUID id, String status, LocalDateTime dataPedido, LocalDateTime dataEntregaPrevista,
+	public Pedido(UUID id, Status status, LocalDateTime dataPedido, LocalDateTime dataEntregaPrevista,
 				  LocalDateTime dataEntrega, BigDecimal valorTotal, Cliente cliente) {
 		this.id = id;
 		this.status = status;
@@ -64,11 +68,11 @@ public class Pedido {
 		this.id = id;
 	}
 
-	public String getStatus() {
+	public Status getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(Status status) {
 		this.status = status;
 	}
 
