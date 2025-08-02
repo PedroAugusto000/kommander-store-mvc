@@ -6,9 +6,13 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import io.github.pedroaugusto00.kommanderstore_mvc.produto.controller.dto.CategoriaDTO;
 import io.github.pedroaugusto00.kommanderstore_mvc.produto.controller.dto.ProdutoDTO;
+import io.github.pedroaugusto00.kommanderstore_mvc.produto.controller.mapper.CategoriaMapper;
 import io.github.pedroaugusto00.kommanderstore_mvc.produto.controller.mapper.ProdutoMapper;
+import io.github.pedroaugusto00.kommanderstore_mvc.produto.model.Categoria;
 import io.github.pedroaugusto00.kommanderstore_mvc.produto.model.Produto;
+import io.github.pedroaugusto00.kommanderstore_mvc.produto.repository.CategoriaRepository;
 import io.github.pedroaugusto00.kommanderstore_mvc.produto.repository.ProdutoRepository;
 import jakarta.persistence.EntityNotFoundException;
 
@@ -16,9 +20,11 @@ import jakarta.persistence.EntityNotFoundException;
 public class ProdutoService {
 
 	private final ProdutoRepository produtoRepository;
+	private final CategoriaRepository categoriaRepository;
 
-	public ProdutoService(ProdutoRepository produtoRepository) {
+	public ProdutoService(ProdutoRepository produtoRepository, CategoriaRepository categoriaRepository) {
 		this.produtoRepository = produtoRepository;
+		this.categoriaRepository = categoriaRepository;
 	}
 	
 	public ProdutoDTO criar(ProdutoDTO dto) {
@@ -36,12 +42,14 @@ public class ProdutoService {
 	public ProdutoDTO atualizarPorId(ProdutoDTO dto, UUID id) {
 		Produto produtoExiste = produtoRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Produto não encontrado!"));
 		
+		Categoria categoriaExiste = categoriaRepository.findById(dto.getCategoriaId()).orElseThrow(() -> new EntityNotFoundException("Categoria não encontrado!"));
+		
 		produtoExiste.setAtivo(dto.getAtivo());
-		produtoExiste.setCategoria(dto.getCategoria());
 		produtoExiste.setDescricao(dto.getDescricao());
 		produtoExiste.setNome(dto.getNome());
 		produtoExiste.setPreco(dto.getPreco());
 		produtoExiste.setQuantidadeEstoque(dto.getQuantidadeEstoque());
+		produtoExiste.setCategoria(categoriaExiste);
 		
 		Produto atualizado = produtoRepository.save(produtoExiste);
 		return ProdutoMapper.toDTO(atualizado);
@@ -52,8 +60,21 @@ public class ProdutoService {
 		produtoRepository.deleteById(id);
 	}
 	
+	public CategoriaDTO criarCategoria(CategoriaDTO dto) {
+		Categoria categoria = CategoriaMapper.toEntity(dto);
+		Categoria salvo = categoriaRepository.save(categoria);
+		return CategoriaMapper.toDTO(salvo);
+	}
+	
+	public List<ProdutoDTO> consultarTodos() {
+		List<Produto> produtos = produtoRepository.findAll();
+		return produtos.stream().map(ProdutoMapper::toDTO).collect(Collectors.toList());
+	}
+	
 	public List<ProdutoDTO> consultarTodosAtivos() {
 		List<Produto> produtosExistem = produtoRepository.findAllByAtivoTrue();
 		return produtosExistem.stream().map(ProdutoMapper::toDTO).collect(Collectors.toList());
 	}
+	
+
 }

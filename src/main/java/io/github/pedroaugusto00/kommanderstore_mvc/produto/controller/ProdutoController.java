@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.github.pedroaugusto00.kommanderstore_mvc.produto.controller.dto.CategoriaDTO;
 import io.github.pedroaugusto00.kommanderstore_mvc.produto.controller.dto.ProdutoDTO;
 import io.github.pedroaugusto00.kommanderstore_mvc.produto.service.ProdutoService;
 
@@ -24,6 +25,11 @@ public class ProdutoController {
 
 	public ProdutoController(ProdutoService produtoService) {
 		this.produtoService = produtoService;
+	}
+	
+	@GetMapping
+	public ResponseEntity<List<ProdutoDTO>> listarTodos() {
+		return ResponseEntity.ok(produtoService.consultarTodos());
 	}
 	
 	@PostMapping
@@ -47,9 +53,15 @@ public class ProdutoController {
 		return ResponseEntity.noContent().build();
 	}
 	
+	@PostMapping("/categoria")
+	public ResponseEntity<CategoriaDTO> criar(@RequestBody CategoriaDTO dto) {
+		return ResponseEntity.ok(produtoService.criarCategoria(dto));
+	}
+	
 	@GetMapping("/ativos")
 	public ResponseEntity<List<ProdutoDTO>> listarTodosAtivo() {
 		return ResponseEntity.ok(produtoService.consultarTodosAtivos());
 	}
 	
+
 }

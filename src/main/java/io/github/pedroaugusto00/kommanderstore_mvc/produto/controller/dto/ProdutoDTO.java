@@ -4,19 +4,16 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import io.github.pedroaugusto00.kommanderstore_mvc.produto.model.enums.Categoria;
-
 public class ProdutoDTO {
 
 	private UUID id;
 	private String nome;
 	private String descricao;
 	private BigDecimal preco;
-	private Categoria categoria;
 	private Integer quantidadeEstoque;
 	private LocalDateTime dataCriacao;
 	private Boolean ativo;
-	
+	private UUID categoriaId;
 	public UUID getId() {
 		return id;
 	}
@@ -41,12 +38,6 @@ public class ProdutoDTO {
 	public void setPreco(BigDecimal preco) {
 		this.preco = preco;
 	}
-	public Categoria getCategoria() {
-		return categoria;
-	}
-	public void setCategoria(Categoria categoria) {
-		this.categoria = categoria;
-	}
 	public Integer getQuantidadeEstoque() {
 		return quantidadeEstoque;
 	}
@@ -65,6 +56,10 @@ public class ProdutoDTO {
 	public void setAtivo(Boolean ativo) {
 		this.ativo = ativo;
 	}
-	
-	
+	public UUID getCategoriaId() {
+		return categoriaId;
+	}
+	public void setCategoriaId(UUID categoriaId) {
+		this.categoriaId = categoriaId;
+	}
 }

@@ -10,5 +10,6 @@ import io.github.pedroaugusto00.kommanderstore_mvc.produto.model.Produto;
 
 @Repository
 public interface ProdutoRepository extends JpaRepository<Produto, UUID>{
+	List<Produto> findAll();
 	List<Produto> findAllByAtivoTrue();
 }
