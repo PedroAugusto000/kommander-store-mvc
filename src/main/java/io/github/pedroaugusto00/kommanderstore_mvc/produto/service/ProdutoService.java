@@ -1,5 +1,6 @@
 package io.github.pedroaugusto00.kommanderstore_mvc.produto.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -14,6 +15,7 @@ import io.github.pedroaugusto00.kommanderstore_mvc.produto.model.Categoria;
 import io.github.pedroaugusto00.kommanderstore_mvc.produto.model.Produto;
 import io.github.pedroaugusto00.kommanderstore_mvc.produto.repository.CategoriaRepository;
 import io.github.pedroaugusto00.kommanderstore_mvc.produto.repository.ProdutoRepository;
+import io.github.pedroaugusto00.kommanderstore_mvc.produto.repository.specs.ProdutoSpecification;
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
@@ -76,5 +78,10 @@ public class ProdutoService {
 		return produtosExistem.stream().map(ProdutoMapper::toDTO).collect(Collectors.toList());
 	}
 	
+	public List<ProdutoDTO> filtrar(String nome, String descricao, UUID categoriaId, BigDecimal precoMin, BigDecimal precoMax) {
+	    var spec = ProdutoSpecification.filtrar(nome, descricao, categoriaId, precoMin, precoMax);
+	    List<Produto> produtos = produtoRepository.findAll(spec);
+	    return produtos.stream().map(ProdutoMapper::toDTO).collect(Collectors.toList());
+	}
 
 }

@@ -1,5 +1,6 @@
 package io.github.pedroaugusto00.kommanderstore_mvc.produto.controller;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.github.pedroaugusto00.kommanderstore_mvc.produto.controller.dto.CategoriaDTO;
@@ -63,5 +65,15 @@ public class ProdutoController {
 		return ResponseEntity.ok(produtoService.consultarTodosAtivos());
 	}
 	
-
+	@GetMapping("/filtro")
+	public ResponseEntity<List<ProdutoDTO>> listarFiltrado(
+	        @RequestParam(required = false) String nome,
+	        @RequestParam(required = false) String descricao,
+	        @RequestParam(required = false) UUID categoriaId,
+	        @RequestParam(required = false) BigDecimal precoMin,
+	        @RequestParam(required = false) BigDecimal precoMax
+	) {
+	    List<ProdutoDTO> produtos = produtoService.filtrar(nome, descricao, categoriaId, precoMin, precoMax);
+	    return ResponseEntity.ok(produtos);
+	}
 }
